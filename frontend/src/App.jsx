@@ -6,6 +6,7 @@ import History from './pages/History'
 import Login from './pages/Login'
 import Navbar from './Navbar'
 import CVInterview from './pages/CVInterview'
+import Register from './pages/Register'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
             <Route path='/login' element={<Login/>} />
             <Route path='/navbar' element={<Navbar/>}/>
             <Route path='/cv-interview' element={<CVInterview/>} />
+            <Route path='/register' element={<Register/>}/>
         </Routes>
         </BrowserRouter>
       

@@ -1,7 +1,7 @@
 // import axios from 'axios'
 import api from "../api";
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {
     const [username,setUsername]=useState("")
@@ -13,7 +13,7 @@ const Login = () => {
 
         try{
             
-            const res=await api.post( "http://127.0.0.1:8000/api/token/",
+            const res=await api.post( "/token/",
         {
           username,
           password
@@ -66,6 +66,10 @@ const Login = () => {
       >
         Login
       </button>
+
+      <p>Don't have an account?{" "}
+        <Link to="/register" className="text-blue-600 font-semibold">Register</Link>
+      </p>
 
     </div>
   </div>

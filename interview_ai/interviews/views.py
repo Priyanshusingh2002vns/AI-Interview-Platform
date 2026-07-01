@@ -246,7 +246,9 @@ def interview_history(request):
 def register(request):
 
     username=request.data.get('username')
+    email=request.data.get("email")
     password=request.data.get('password')
+    
 
     if not username or not password:
         return Response(
@@ -255,16 +257,23 @@ def register(request):
         )
     if User.objects.filter(username=username).exists():
         return Response(
-            {"erroe":"User already exists"},
+            {"error":"Username already exists"},
+            status=400
+        )
+    if email and User.objects.filter(email=email).exists():
+        return Response(
+            {"error":"Email already exists."},
             status=400
         )
     User.objects.create_user(
         username=username,
+        email=email if email else "",
         password=password
+        
     )
     return Response({
         "message":"User created successfully"
-    })
+    },status=201)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
