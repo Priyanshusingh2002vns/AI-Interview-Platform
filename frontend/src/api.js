@@ -1,49 +1,66 @@
 import axios from "axios";
 
-const api=axios.create({
-    baseURL:"http://127.0.0.1:8000/api/",
-})
+const BASE_URL = "https://ai-interview-platform-y8jv.onrender.com/api/";
 
-api.interceptors.request.use((config)=>{
-    const token =localStorage.getItem("access")
+const api = axios.create({
+    baseURL: BASE_URL,
+});
 
-    if(token){
-        config.headers.Authorization=`Bearer ${token}`
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("access");
+
+    console.log("TOKEN:",token)
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
-    return config
-})
+
+    return config;
+});
 
 api.interceptors.response.use(
-    (response)=>response,
-    async(error)=>{
-        const originalRequest = error.config
+    (response) => response,
 
-        if(
-            error.response?.status==401 && !originalRequest._retry
-        ){
-            originalRequest._retry=true
+    async (error) => {
 
-            try{
-                const refresh = localStorage.getItem("refresh")
+        const originalRequest = error.config;
 
-                const res=await axios.post("http://127.0.0.1:8000/api/token/refresh/",{
-                    refresh
-                })
+        if (
+            error.response?.status === 401 &&
+            !originalRequest._retry
+        ) {
 
-                localStorage.setItem("access",res.data.access)
+            originalRequest._retry = true;
 
-                originalRequest.headers.Authorization=`Bearer ${res.data.access}`
+            try {
 
-                return api(originalRequest)
+                const refresh = localStorage.getItem("refresh");
+
+                const res = await axios.post(
+                    `${BASE_URL}token/refresh/`,
+                    {
+                        refresh,
+                    }
+                );
+
+                localStorage.setItem("access", res.data.access);
+
+                originalRequest.headers.Authorization =
+                    `Bearer ${res.data.access}`;
+
+                return api(originalRequest);
+
             } catch {
-                localStorage.removeItem("access")
-                localStorage.removeItem("refresh")
 
-                window.location.href="/login"
+                localStorage.removeItem("access");
+                localStorage.removeItem("refresh");
+
+                window.location.href = "/login";
             }
         }
 
-        return Promise.reject(error)
+        return Promise.reject(error);
     }
-)
-export default api
+);
+
+export default api;
