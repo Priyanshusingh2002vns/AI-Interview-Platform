@@ -7,7 +7,7 @@ const History = () => {
 
     useEffect(()=>{
         const token=localStorage.getItem("access")
-        api.get("http://127.0.0.1:8000/api/interview_history/",{headers:{Authorization:`Bearer ${token}`}})
+        api.get("/interview_history/",{headers:{Authorization:`Bearer ${token}`}})
         .then((res) => {
             setHistory(res.data)
         })

@@ -28,7 +28,7 @@ const logout=()=>{
  useEffect(()=>{
     
         const token=localStorage.getItem("access")
-        api.get("http://127.0.0.1:8000/api/dashboard_stats/",{
+        api.get("/dashboard_stats/",{
             headers:{
                 Authorization:`Bearer ${token}`
             }

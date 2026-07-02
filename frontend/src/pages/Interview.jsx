@@ -26,7 +26,7 @@ const Interview = () => {
     const fetchQuestion=()=>{
         const token=localStorage.getItem("access")
 
-        api.get(`http://127.0.0.1:8000/api/get_question/?tech=${tech}`,{
+        api.get(`/get_question/?tech=${tech}`,{
             headers:{
                 Authorization:`Bearer ${token}`,
             },
@@ -45,7 +45,7 @@ const Interview = () => {
 
     //     const token=localStorage.getItem("access")
         
-    //     axios.get(`http://127.0.0.1:8000/api/get_question/?tech=${tech}`,{headers:{Authorization:`Bearer ${token}`}})
+    //     axios.get(`http://:8000/api/get_question/?tech=${tech}`,{headers:{Authorization:`Bearer ${token}`}})
     //     .then((res)=>{
     //         setQuestion(res.data.question)
     //     })
@@ -67,7 +67,7 @@ const Interview = () => {
         setLoading(true)
 
 
-        api.post("http://127.0.0.1:8000/api/evaluate_answer/",{
+        api.post("/evaluate_answer/",{
             technology:tech,
             question,
             answer,
